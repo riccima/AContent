@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
-<page_template version="0.1">
+<layout version="0.1">
   <name lang="en">
-    Unordered list
+    Pastel
   </name>
   <description lang="en">
-    Unordered list
+    Pastel green colour cheme
   </description>
   <maintainers>
     <maintainer>
       <name>
-        Mauro Donadio
+        Greg Gay
       </name>
       <email>
-        mauro.donadio@studio.unibo.it
+        ggay@ocad.ca
       </email>
     </maintainer>
   </maintainers>
@@ -28,4 +28,4 @@
     </state>
     <notes/>
   </release>
-</page_template>
+</layout>

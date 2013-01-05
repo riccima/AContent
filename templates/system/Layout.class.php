@@ -134,7 +134,6 @@ class Layout{
 
 					// check the "core"
 					if(!$info['core'])
-						
 						continue;
 					else {
 
@@ -143,15 +142,12 @@ class Layout{
 		
 						// cursory check for version compatibility
 						// stopping the cycle to the first incompatibility found
-						/*
 						if($vfile[0] < $vcore[0])
 							// not compatible!
 							continue;
 						elseif(strtolower($vfile[1]) != 'x' and $vfile[1] < $vcore[1]) 
 							// not compatible!
 							continue;
-						*/
-						
 					}
 	
 					// put the info of the current layout into an array
@@ -196,7 +192,7 @@ class Layout{
                         <th scope="col">&nbsp;</th>
                         <th scope="col">'._AT('name').'</th>
                         <th scope="col">'._AT('description').'</th>
-                        <th scope="col">'._AT('icon').'</th>
+                        <th scope="col">'._AT('thumbnail').'</th>
                     </tr>
                 </thead>';
 
@@ -206,7 +202,7 @@ class Layout{
 		$ui .= '<td><label for="radio-nothing" style="cursor:pointer;">'._AT('nothing').'</label></td>';
 		$ui .= '<td>'._AT('nothing_description').'</td>';
 
-		$ui .= '<td><div><img class="layout_img_small"  src="'.TR_BASE_HREF.'/templates/system/nolayout.png" style="height:48px;" src=""  desc="Nothing Screenshot" title="'._AT('img_layout_icon','nothing').'" id="layoutscreenshot"  /></td></div>';       
+		$ui .= '<td><div><img class="layout_img_small"  src="'.TR_BASE_HREF.'/templates/system/nolayout.png" src=""  desc="Nothing Screenshot" title="'._AT('img_layout_icon','nothing').'" /></td></div>';       
 		$ui .= '</tr>'; 
 		$ui .= '</tr>';
 
@@ -221,13 +217,13 @@ class Layout{
 			$ui .= '<td>'.$tval['description'].'</td>';
 
 			if($tname!='seti' && $tname!='windows'&& $tname!='unibo') {    
-				$ui .= '<td><div><img class="layout_img_big" src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'"  title="'._AT('img_layout_icon',$tname).'" id="layoutscreenshot"  /></td></div>';       
+				$ui .= '<td><div><img class="layout_img_small" src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'"  title="'._AT('img_layout_icon',$tname).'"  /></td></div>';       
 				$ui .= '</tr>'; 
 			} elseif($tname != unibo) {
-				$ui .= '<td><div><img  class="layout_img_small" src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'"  title="'._AT('img_layout_icon',$tname).'" id="layoutscreenshot"  /></td></div>';       
+				$ui .= '<td><div><img  class="layout_img_small" src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'"  title="'._AT('img_layout_icon',$tname).'" /></td></div>';       
 				$ui .= '</tr>'; 
 			} else {
-				$ui .= '<td><div><img  src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'" title="'._AT('img_layout_icon',$tname).'" id="layoutscreenshot"  /></td></div>';       
+				$ui .= '<td><div><img  class="layout_img_small" src="'.TR_BASE_HREF.'/templates/layout/'.$tname.'/screenshot-'.$tname.'.png" alt="'._AT('img_layout_icon',$tname).'" title="'._AT('img_layout_icon',$tname).'"  /></td></div>';       
 				$ui .= '</tr>'; 
 			}
 		}

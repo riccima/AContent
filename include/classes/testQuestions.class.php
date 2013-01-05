@@ -80,6 +80,9 @@ class TestQuestions {
 		$question_classes[6] = 'OrderingQuestion';
 		$question_classes[7] = 'MultianswerQuestion';
 		$question_classes[8] = 'MatchingddQuestion';
+                $question_classes[9] = 'FillinBlanksQuestion';
+                $question_classes[10] = 'Fill';
+                
 		
 		return $question_classes;
 	}
@@ -823,6 +826,194 @@ class OrderingQuestion extends AbstractTestQuestion {
 		}
 	}
 }
+
+
+ class FillinBlanksQuestion extends AbstractTestQuestion {
+	/*protected */ var $sNameVar = 'test_fib';
+	/*protected */ var $sPrefix = 'fillinblanks';
+	
+	/*protected */function assignQTIVariables($row) {
+		$choices = $this->getChoices($row);
+		$num_choices = count($choices);
+
+		$num_options = 0;
+		for ($i=0; $i < 10; $i++) {
+			if ($row['option_'. $i] != '') {
+				$num_options++;
+			}
+		}
+
+		$this->savant->assign('num_choices', $num_choices);
+		$this->savant->assign('num_options', $num_options);
+		$this->savant->assign('row', $row);
+	}
+
+	/*protected */function assignDisplayResultVariables($row, $answer_row) {
+
+		$this->savant->assign('base_href', TR_BASE_HREF);
+		$this->savant->assign('answers', $answer_row['answer']);
+		$this->savant->assign('row', $row);
+	}
+
+	/*protected */function assignDisplayVariables($row, $response) {
+		$this->savant->assign('row', $row);
+		$this->savant->assign('response', $response);
+	}
+
+	/*protected */function assignDisplayStatisticsVariables($row, $answers) {
+		$num_results = 0;		
+		foreach ($answers as $answer) {
+			$num_results += $answer['count'];
+		}
+
+		$this->savant->assign('num_results', $num_results);
+		$this->savant->assign('num_blanks', (int) $answers['-1']['count']);
+		$this->savant->assign('num_true', (int) $answers['1']['count']);
+		$this->savant->assign('num_false', (int) $answers['2']['count']);
+		$this->savant->assign('row', $row);
+	}
+	
+	/*public */function mark($row) { 
+		$_POST['answers'][$row['question_id']] = intval($_POST['answers'][$row['question_id']]);
+
+		if ($row['answer_0'] == $_POST['answers'][$row['question_id']]) {
+			return (int) $row['weight'];
+		} // else:
+		return 0;
+	}
+
+	//QTI Import True/False Question
+	function importQTI($question){
+		require_once(TR_INCLUDE_PATH.'classes/DAO/DAO.class.php');
+		global $msg, $db, $_course_id;
+
+		if ($question['question'] == ''){
+			$msg->addError(array('EMPTY_FIELDS', _AT('statement')));
+		}
+
+		//assign true answer to 1, false answer to 2, idk to 3, for ATutor
+		if  ($question['answer'] == 'ChoiceT'){
+			$question['answer'] = 1;
+		} else {
+			$question['answer'] = 2;	
+		}
+
+		if (!$msg->containsErrors()) {
+//			$_POST['feedback'] = $addslashes($_POST['feedback']);
+//			$_POST['question'] = $addslashes($_POST['question']);
+
+
+			$sql_params = array(	$question['category_id'], 
+									$_course_id,
+									$question['feedback'], 
+									$question['question'], 
+									$question['answer']);
+
+			$sql = vsprintf(TR_SQL_QUESTION_TRUEFALSE, $sql_params);
+//			$result	= mysql_query($sql, $db);
+//			if ($result==true){
+			$dao = new DAO();
+			if ($dao->execute($sql)) {	
+				return mysql_insert_id();
+			}
+		}
+	}
+}
+
+
+
+class Fill extends AbstractTestQuestion {
+	/*protected */ var $sNameVar = 'test_fib';
+	/*protected */ var $sPrefix = 'fillinblanks';
+	
+	/*protected */function assignQTIVariables($row) {
+		$choices = $this->getChoices($row);
+		$num_choices = count($choices);
+
+		$num_options = 0;
+		for ($i=0; $i < 10; $i++) {
+			if ($row['option_'. $i] != '') {
+				$num_options++;
+			}
+		}
+
+		$this->savant->assign('num_choices', $num_choices);
+		$this->savant->assign('num_options', $num_options);
+		$this->savant->assign('row', $row);
+	}
+
+	/*protected */function assignDisplayResultVariables($row, $answer_row) {
+
+		$this->savant->assign('base_href', TR_BASE_HREF);
+		$this->savant->assign('answers', $answer_row['answer']);
+		$this->savant->assign('row', $row);
+	}
+
+	/*protected */function assignDisplayVariables($row, $response) {
+		$this->savant->assign('row', $row);
+		$this->savant->assign('response', $response);
+	}
+
+	/*protected */function assignDisplayStatisticsVariables($row, $answers) {
+		$num_results = 0;		
+		foreach ($answers as $answer) {
+			$num_results += $answer['count'];
+		}
+
+		$this->savant->assign('num_results', $num_results);
+		$this->savant->assign('num_blanks', (int) $answers['-1']['count']);
+		$this->savant->assign('num_true', (int) $answers['1']['count']);
+		$this->savant->assign('num_false', (int) $answers['2']['count']);
+		$this->savant->assign('row', $row);
+	}
+	
+	/*public */function mark($row) { 
+		$_POST['answers'][$row['question_id']] = intval($_POST['answers'][$row['question_id']]);
+
+		if ($row['answer_0'] == $_POST['answers'][$row['question_id']]) {
+			return (int) $row['weight'];
+		} // else:
+		return 0;
+	}
+
+	//QTI Import True/False Question
+	function importQTI($question){
+		require_once(TR_INCLUDE_PATH.'classes/DAO/DAO.class.php');
+		global $msg, $db, $_course_id;
+
+		if ($question['question'] == ''){
+			$msg->addError(array('EMPTY_FIELDS', _AT('statement')));
+		}
+
+		//assign true answer to 1, false answer to 2, idk to 3, for ATutor
+		if  ($question['answer'] == 'ChoiceT'){
+			$question['answer'] = 1;
+		} else {
+			$question['answer'] = 2;	
+		}
+
+		if (!$msg->containsErrors()) {
+//			$_POST['feedback'] = $addslashes($_POST['feedback']);
+//			$_POST['question'] = $addslashes($_POST['question']);
+
+
+			$sql_params = array(	$question['category_id'], 
+									$_course_id,
+									$question['feedback'], 
+									$question['question'], 
+									$question['answer']);
+
+			$sql = vsprintf(TR_SQL_QUESTION_TRUEFALSE, $sql_params);
+//			$result	= mysql_query($sql, $db);
+//			if ($result==true){
+			$dao = new DAO();
+			if ($dao->execute($sql)) {	
+				return mysql_insert_id();
+			}
+		}
+	}
+}
+
 
 /**
 * truefalseQuestion

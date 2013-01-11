@@ -91,7 +91,8 @@ class QTIImport {
 				$xml->setRelativePath($package_base_name);
 
 				if (!$xml->parse($xml_content)){	
-					$msg->addError('QTI_WRONG_PACKAGE');
+                                        $msg->addError('BIO PACKAGE');
+					//$msg->addError('QTI_WRONG_PACKAGE');
 					break;
 				}
 

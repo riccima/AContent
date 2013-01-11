@@ -73,15 +73,20 @@ class QTIParser {
 				$this->answers[$afm_k] = $afk_v;
 			}
 		}
-
-		if(in_array('questestinterop', $this->element_path) ||
+           
+		/*if(in_array('questestinterop', $this->element_path) ||
 			in_array('assessment', $this->element_path)){
-			//this is a v2.1+ package
+			//this is a v2.1+ package // cippa
 			return false;
 		} else {
 			return true;
-		}
-	}
+		}*/
+	// mio di me e catia 
+       return true ; 
+        // mio di me e catia 
+                
+        }
+        
 
 	// private
 	function startElement($parser, $name, $attributes) {
@@ -180,7 +185,7 @@ class QTIParser {
 		$last_element = $this->element_path[$current_pos - 1];
 
 		switch($name) {
-			case 'item':
+ 			case 'item':
 				$this->item_num++;
 				break;
 			case 'mattext':

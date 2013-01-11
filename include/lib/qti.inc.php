@@ -72,7 +72,7 @@ function isQTIFileExist($attributes){
 				}
 			}
 		}
-	}
+	} 
 	return $existing_files;
 }
 ?>

@@ -318,7 +318,7 @@ $qids = $qti_import->importQuestions($attributes);
 $tid = $qti_import->importTest();
 
 //associate question and tests
-foreach ($qids as $order=>$qid){
+ foreach ($qids as $order=>$qid){
 	if (isset($qti_import->weights[$order])){
 		$weight = round($qti_import->weights[$order]);
 	} else {

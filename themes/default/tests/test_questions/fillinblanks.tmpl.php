@@ -1,5 +1,8 @@
 <?php $text = AT_print($this->row['question'], 'tests_questions.question'); 
-$exp_text = explode(' ', $text);
+$exp = explode(' ', $text);
+$exp_tmp = (array_filter($exp));
+$exp_text = array_values($exp_tmp);
+
 $j=0;
 ?><p>
 <?php 

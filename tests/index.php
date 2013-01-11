@@ -17,7 +17,7 @@ require_once(TR_INCLUDE_PATH.'classes/Utility.class.php');
 require_once(TR_INCLUDE_PATH.'classes/DAO/TestsDAO.class.php');
 
 global $_course_id;
-Utility::authenticate(TR_PRIV_ISAUTHOR_OF_CURRENT_COURSE);
+Utility::authenticate(vTR_PRIV_ISAUTHOR_OF_CURRENT_COURSE);
 
 if (isset($_GET['edit'], $_GET['id'])) {
 	header('Location: edit_test.php?tid='.$_GET['id'].'&_course_id='.$_course_id);

@@ -35,7 +35,7 @@ if (isset($_POST['cancel']) || isset($_POST['submit_no'])) {
 	if(!isset($_POST['word']))
 		$msg->addError('You must choose at least one word!');
 	else {
- 		for($i=0; $i<10; $i++)
+		for($i=0; $i<10; $i++)
 			$_POST['choice'][$i] = $_POST['word'][$i];
 		
 	}
@@ -68,7 +68,7 @@ if (isset($_POST['cancel']) || isset($_POST['submit_no'])) {
 					document.getElementById(\''.$word.'_'.$count.'_span\').style.border= \'none\';
 				}"/>';
 				$transform_text .= '<label for="'.$word.'_'.$count.'">'.$word.'</label>';
-				$transform_text .= '</span>'; 
+				$transform_text .= '</span>';
 				
 				if($flag) {
 					$transform_text .= '<span>';
@@ -183,7 +183,7 @@ if (isset($_POST['cancel']) || isset($_POST['submit_no'])) {
 									$_POST['option'][7],
 									$_POST['option'][8],
 									$_POST['option'][9]);
-			//$sql = vsprintf(TR_SQL_QUESTION_FILLINBLANKS, $sql_params);
+			$sql = vsprintf(TR_SQL_QUESTION_FILLINBLANKS, $sql_params);
 
 			if ($testsQuestionsDAO->execute($sql)) {
 				$msg->addFeedback('ACTION_COMPLETED_SUCCESSFULLY');

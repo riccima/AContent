@@ -188,7 +188,7 @@ class UsersDAO extends DAO {
 		$country = $addslashes(trim($country));
 		$postal_code = $addslashes(trim($postal_code));
 		
-		if ($this->isFieldsValid('update', $user_group_id,$login, $email,$first_name, $last_name,
+		if ($this->isFieldsValid($userID, $user_group_id,$login, $email,$first_name, $last_name,
 		                         $is_author, $organization, $phone, $address, $city,
 	                             $province, $country, $postal_code))
 		{
@@ -521,6 +521,12 @@ class UsersDAO extends DAO {
 	                               $province, $country, $postal_code)
 	{
 		global $msg;
+		$user = null;
+		
+		if($validate_type!='new')
+		{
+			$user = $this->getUserByID($validate_type);
+		}
 		
 		$missing_fields = array();
 		/* login name check */
@@ -535,7 +541,7 @@ class UsersDAO extends DAO {
 			{
 				$msg->addError('LOGIN_CHARS');
 			}
-			else if ($validate_type == 'new' && $this->isLoginExists($login))
+			else if (($validate_type=='new' || $user['login']==null) && $this->isLoginExists($login))
 			{
 				$msg->addError('LOGIN_EXISTS');
 			}

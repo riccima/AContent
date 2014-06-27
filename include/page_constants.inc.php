@@ -26,7 +26,7 @@
  Because the Utility::authenticate on the following each page section 
  messes up the oauth user authentication. 
 */
-global $oauth_import, $_course_id, $_content_id, $_struct_name;
+global $oauth_import, $_course_id, $_content_id;
 if ($oauth_import) return;
 
 // constants to map privileges.privilege_id, used to load constant pages
@@ -68,24 +68,27 @@ foreach ($rows as $row)
 
 /* define all accessible pages */
 // 1. public pages
-$_pages['register.php']['title_var'] = 'registration';
-$_pages['register.php']['parent']    = TR_NAV_PUBLIC;
-$_pages['register.php']['guide']    = 'TR_HELP_REGISTRATION';
+if(!(defined('AUTH_METHOD') && AUTH_METHOD == "SHIB"))
+{
+	$_pages['register.php']['title_var'] = 'registration';
+	$_pages['register.php']['parent']    = TR_NAV_PUBLIC;
+	$_pages['register.php']['guide']    = 'TR_HELP_REGISTRATION';
 
-$_pages['confirm.php']['title_var'] = 'confirm';
-$_pages['confirm.php']['parent']    = TR_NAV_PUBLIC;
+	$_pages['confirm.php']['title_var'] = 'confirm';
+	$_pages['confirm.php']['parent']    = TR_NAV_PUBLIC;
 
-$_pages['login.php']['title_var'] = 'login';
-$_pages['login.php']['parent']    = TR_NAV_PUBLIC;
-$_pages['login.php']['guide']    = 'TR_HELP_LOGIN';
-$_pages['login.php']['children']  = array_merge(array('password_reminder.php'), isset($_pages['login.php']['children']) ? $_pages['login.php']['children'] : array());
+	$_pages['login.php']['title_var'] = 'login';
+	$_pages['login.php']['parent']    = TR_NAV_PUBLIC;
+	$_pages['login.php']['guide']    = 'TR_HELP_LOGIN';
+	$_pages['login.php']['children']  = array_merge(array('password_reminder.php'), isset($_pages['login.php']['children']) ? $_pages['login.php']['children'] : array());
 
-$_pages['logout.php']['title_var'] = 'logout';
-$_pages['logout.php']['parent']    = TR_NAV_PUBLIC;
+	$_pages['logout.php']['title_var'] = 'logout';
+	$_pages['logout.php']['parent']    = TR_NAV_PUBLIC;
 
-$_pages['password_reminder.php']['title_var'] = 'password_reminder';
-$_pages['password_reminder.php']['parent']    = 'login.php';
-$_pages['password_reminder.php']['guide']    = 'TR_HELP_PASSWORD_REMINDER';
+	$_pages['password_reminder.php']['title_var'] = 'password_reminder';
+	$_pages['password_reminder.php']['parent']    = 'login.php';
+	$_pages['password_reminder.php']['guide']    = 'TR_HELP_PASSWORD_REMINDER';
+}
 
 $_pages['oauth/authorization.php']['title_var'] = 'oauth_authenticate';
 $_pages['oauth/authorization.php']['parent']    = TR_NAV_PUBLIC;
@@ -304,17 +307,26 @@ if (array_key_exists(TR_PRIV_PROFILE, $privs) && Utility::authenticate($privs[TR
 	$_pages['profile/index.php']['title_var'] = 'profile';
 	$_pages['profile/index.php']['parent']    = TR_NAV_TOP;
 	$_pages['profile/index.php']['guide']    = 'TR_HELP_PROFILE';
-	$_pages['profile/index.php']['children']  = array_merge(array('profile/change_password.php', 
+	if(!(defined('AUTH_METHOD') && AUTH_METHOD == "SHIB"))
+	{
+		$_pages['profile/index.php']['children']  = array_merge(array('profile/change_password.php', 
 	                                                              'profile/change_email.php'), 
 	                                                        isset($_pages['profile/index.php']['children']) ? $_pages['profile/index.php']['children'] : array());
 	
-	$_pages['profile/change_password.php']['title_var'] = 'change_password';
-	$_pages['profile/change_password.php']['parent']    = 'profile/index.php';
-	$_pages['profile/change_password.php']['guide']    = 'TR_HELP_CHANGE_PASSWORD';
-	
-	$_pages['profile/change_email.php']['title_var'] = 'change_email';
-	$_pages['profile/change_email.php']['parent']    = 'profile/index.php';
-	$_pages['profile/change_email.php']['guide']    = 'TR_HELP_CHANGE_EMAIL';
+		$_pages['profile/change_password.php']['title_var'] = 'change_password';
+		$_pages['profile/change_password.php']['parent']    = 'profile/index.php';
+		$_pages['profile/change_password.php']['guide']    = 'TR_HELP_CHANGE_PASSWORD';
+		
+		$_pages['profile/change_email.php']['title_var'] = 'change_email';
+		$_pages['profile/change_email.php']['parent']    = 'profile/index.php';
+		$_pages['profile/change_email.php']['guide']    = 'TR_HELP_CHANGE_EMAIL';
+	}
+	else if(AUTH_METHOD == "SHIB")
+	{
+		$_pages['shibboleth/profile/index.php']['title_var'] = 'profile';
+		$_pages['shibboleth/profile/index.php']['parent']    = TR_NAV_TOP;
+		$_pages['shibboleth/profile/index.php']['guide']    = 'TR_HELP_PROFILE';
+	}
 }
 
 // updater pages

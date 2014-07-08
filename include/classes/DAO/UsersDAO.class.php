@@ -386,23 +386,32 @@ class UsersDAO extends DAO {
 		
 		if (!$row) return false;
 		
-		if ($row['first_name'] <> '' && $row['last_name'] <> '')
-		{
-			return $row['first_name']. ' '.$row['last_name'];
-		}
-		else if ($row['first_name'] <> '')
-		{
-			return $row['first_name'];
-		}
-		else if ($row['last_name'] <> '')
-		{
-			return $row['last_name'];
-		}
-		else
-		{
-			return $row['login'];
-		}
-	}
+		if (AUTH_METHOD == 'SHIB') {
+                    
+                return $row['login'];
+                
+               
+            }else {
+
+                if ($row['first_name'] <> '' && $row['last_name'] <> '')
+                {
+                    return $row['first_name']. ' '.$row['last_name'];
+                }
+                else if ($row['first_name'] <> '')
+                {
+                    return $row['first_name'];
+                }
+                else if ($row['last_name'] <> '')
+                {
+                    return $row['last_name'];
+                }
+                else
+                {
+                    return $row['login'];
+                }
+
+            }
+        }
 	
 	/**
 	 * Return given user's status
@@ -516,7 +525,7 @@ class UsersDAO extends DAO {
 	 *          false   if update unsuccessful
 	 * @author  Cindy Qi Li
 	 */
-	private function isFieldsValid($validate_type, $user_group_id, $login, $email, $first_name, $last_name,
+	protected function isFieldsValid($validate_type, $user_group_id, $login, $email, $first_name, $last_name,
 	                               $is_author, $organization, $phone, $address, $city,
 	                               $province, $country, $postal_code)
 	{

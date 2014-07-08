@@ -397,9 +397,15 @@ float:right;
   margin-top: 2px; 
   color: black; 
   background-color: transparent; 
-
   padding-right: 5px;
+  padding-top:5px
+   
 }
+
+#logininfo img {
+vertical-align: text-top;
+}
+
 #banner #versioninfo {
   font-size: 8pt; 
   margin-right: 500px; 

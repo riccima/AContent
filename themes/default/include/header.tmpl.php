@@ -117,18 +117,34 @@ $starttime = $mtime;
         <?php
         if (isset($this->user_name))
         {
-          echo _AT('logged_in_as'). ' '.$this->user_name;
-        ?>
-            &nbsp;&nbsp;
+           ?>  
+             <?php 
+             echo $this->user_name;?>
+                    
+       
+              <a href="https://idp.unibo.it/adfs/ls/infoSSO.aspx">
+                <img alt="Informazioni sul Single Sign-On di Ateneo" title="Informazioni sul Single Sign-On di Ateneo" src="<?php echo $this->base_path; ?>images/logo_sso.png"></a> 
+         
+     
+                        
+       
+            
             <a href="<?php echo TR_BASE_HREF; ?>logout.php" ><?php echo _AT('logout'); ?></a>
         <?php
         }
         else
         {
         ?>
-            <a href="<?php echo TR_BASE_HREF; ?>login.php" ><?php echo _AT('login'); ?></a>
-            &nbsp;&nbsp;
-            <a href="<?php echo TR_BASE_HREF; ?>register.php" ><?php echo _AT('register'); ?></a>
+            <img alt="Informazioni sul Single Sign-On di Ateneo" title="Informazioni sul Single Sign-On di Ateneo" src="<?php echo $this->base_path; ?>images/logo_sso.png"></img>
+				<a href="<?php echo TR_BASE_HREF; echo defined('ALTERNATE_LOGIN_URL')?ALTERNATE_LOGIN_URL : 'login.php'; ?>" ><?php echo _AT('login'); ?></a>
+				&nbsp;&nbsp;
+				<?php 
+					if(!(defined('AUTH_METHOD') && AUTH_METHOD == "SHIB"))
+					{ ?>
+					<a href="<?php echo TR_BASE_HREF; ?>register.php" ><?php echo _AT('register'); ?></a>
+					<?php 
+					}
+					?>
         <?php
         }
         ?>

@@ -6,6 +6,8 @@ $onload = "if (jQuery('#is_author').attr('checked')) jQuery('#table_is_author').
 
 global $_shib_acontent_attribute_map;
 global $_acontent_user_identifier;
+global $_shib_user_identifier;
+
 
 $disabledFields=array_values($_shib_acontent_attribute_map);
 $disabledFields[]=$_acontent_user_identifier;
@@ -28,13 +30,13 @@ require(TR_INCLUDE_PATH.'header.inc.php');
 		</tr>
 
 		<tr>
-			<?php 
-				if($this->row['login']!=null){?>
+                        
+			<?php   
+                                        
+				        $this->row['login']= $_SERVER[$_shib_user_identifier]; ?>
 					<th align="left"><?php echo _AT('login_name'); ?>:</th>
-					<td align="left"><?php echo stripslashes(htmlspecialchars($this->row['login'])); 
-				}else{ ?>
-					<th align="left"><span class="required" title="<?php echo _AT('login_name'); ?>">*</span><label for="login"><?php echo _AT('login_name'); ?></label>:</th>
-					<td align="left"><input id="login" name="login" type="text" value="<?php echo stripslashes(htmlspecialchars($_POST['login'])); ?>" /><?php } ?>
+					<td align="left"><?php echo stripslashes(htmlspecialchars($this->row['login'])); ?>
+				
 
 </td>
 		</tr>

@@ -383,13 +383,14 @@ class UsersDAO extends DAO {
 	public function getUserName($userID)
 	{
                 global $_shib_user_identifier;
+                global $profile_user;
 		$row = $this->getUserByID($userID);
 		
 		if (!$row) return false;
 		
 		if (AUTH_METHOD == 'SHIB') {
                     
-                return $_SERVER[$_shib_user_identifier];
+                return $row['login'];
                 
                
             }else {

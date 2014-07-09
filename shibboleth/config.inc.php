@@ -14,4 +14,16 @@ $_shib_acontent_attribute_map = array();
 $_shib_acontent_attribute_map['HTTP_GIVENNAME']='first_name';
 $_shib_acontent_attribute_map['HTTP_SN']='last_name';
 
+//profile_user array 
+$profile_user = array();
+$profile_user['organization'] = 'ALMA MATER STUDIORUM Univerisity of Bologna' ;
+$profile_user['phone'] = '012345678' ;
+$profile_user['address'] = 'Via Zamboni 33' ;
+$profile_user['city'] = 'Bologna' ;
+$profile_user['province'] ='Bo' ;
+$profile_user['country'] = 'Italy' ;
+$profile_user['postal_code'] = '40126' ;
+
+
+
 ?>

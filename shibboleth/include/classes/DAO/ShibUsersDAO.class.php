@@ -1,4 +1,4 @@
-val<?php
+<?php
 
 /**
  * DAO for "shib users"
@@ -152,7 +152,7 @@ class ShibUsersDAO extends UsersDAO {
 			$sql = substr($sql, 0, -1);
 			
 			$sql = $sql." WHERE user_id=".$userid;
-
+                        
 			if (!$this->execute($sql))
 			{
 				$msg->addError('DB_NOT_UPDATED');
@@ -175,7 +175,37 @@ class ShibUsersDAO extends UsersDAO {
 		return $mapped_attributes;
 	}
 	
-	public function isUserFieldsMissing($userID)
+	public function fillUSerFields($userID)
+	{
+                global $profile_user;
+                global $_shib_acontent_attribute_map;
+                             
+		$user = $this->getUserByID($userID);
+                                
+                $sql = "UPDATE ".TABLE_PREFIX."users SET ";
+			
+			foreach ($profile_user as $key => $value)
+			{
+                            
+                            $sql = $sql.$key.'=\''.$value.'\',';
+                            
+			}
+			//remove last comma
+			$sql = substr($sql, 0, -1);
+			
+			$sql = $sql." WHERE user_id=".$userID;
+                                                
+			if (!$this->execute($sql))
+			{
+				$msg->addError('DB_NOT_UPDATED');
+				return false;
+			}
+        
+            return true;            
+        }
+		  
+        
+        public function isUserFieldsMissing($userID)
 	{
 		$user = $this->getUserByID($userID);
 		if($this->isFieldsValid($userID, $user['user_group_id'], $user['login'], $user['email'], $user['first_name'], $user['last_name'],

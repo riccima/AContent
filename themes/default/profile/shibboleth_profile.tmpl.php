@@ -30,10 +30,7 @@ require(TR_INCLUDE_PATH.'header.inc.php');
 		</tr>
 
 		<tr>
-                        
-			<?php   
-                                        
-				        $this->row['login']= $_SERVER[$_shib_user_identifier]; ?>
+                      	       
 					<th align="left"><?php echo _AT('login_name'); ?>:</th>
 					<td align="left"><?php echo stripslashes(htmlspecialchars($this->row['login'])); ?>
 				

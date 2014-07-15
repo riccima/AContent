@@ -129,7 +129,7 @@ $starttime = $mtime;
                         
        
             
-            <a href="<?php echo TR_BASE_HREF; ?>logout.php" ><?php echo _AT('logout'); ?></a>
+            <a href="<?php echo TR_BASE_HREF; echo defined('ALTERNATE_LOGOUT_URL')?ALTERNATE_LOGOUT_URL : 'logout.php'; ?>"><?php echo _AT('logout'); ?></a>
         <?php
         }
         else

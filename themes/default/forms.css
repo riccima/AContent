@@ -21,6 +21,11 @@ label.success_label{
     width: 300px;
 }
 
+label.label_search:hover{
+    color: #1a4a72;
+    cursor:pointer;
+}
+
 div.left-col {
 	width: 65%; 
 	float: left; 
@@ -152,4 +157,12 @@ input[type=reset]{
 	-moz-border-radius: .3em .3em .3em .3em;
 	-moz-box-shadow:.2em .2em .3em #999999;
 	box-shadow: .2em .2em .3em #999999;
+}
+ 
+label.label_link{
+    color: #1a4a72;
+    text-decoration: underline;
+}
+label.label_link:hover{
+    cursor: pointer;
 }

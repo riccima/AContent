@@ -364,8 +364,8 @@ table.tabbed-table a, table.tabbed-table a:visited, table.tabbed-table a:hover {
 #banner {
   /* border: 1px #365D95 solid; */
   margin: 1.5em 1em 0em 1em;
-  /* border-bottom: black 1px solid; */
-  padding-top:4px;
+ /* border-bottom: black 1px solid; */
+  padding-top:20px;
   padding-left:4px; 
   vertical-align:middle;
 }
@@ -447,12 +447,12 @@ h1 {
    margin-bottom: 5px;
 }
 div#sub-menu {
-    color: #555;
+  color: #555;
   background-color:#BBD9EE; 
-  padding-top: .4em; 
-   font-size:0.85em; 
-    border-top:1px solid #cccccc;
-    height:2.1em;
+  padding-top: 0.4em; 
+  font-size:0.85em;
+  border-top:1px solid #cccccc;
+  height:2.1em;
 }
 div#sub-navigation {
    float:left;
@@ -1000,12 +1000,14 @@ pre.badgeSnippet {
 
 /* Liquid Round theme elements */
 #liquid-round {
-  background-image:url('images/books_top.jpg');
-  background-repeat:repeat-x;
-  background-size:100% 5.8em;
-  width:100%;
+  background-image:url('images/books_top.png');
+  background-repeat:no-repeat;
+  /*background-size:100% ;*/
+  width:100%; 
   margin-left:auto;
   margin-right:auto;
+ 
+  
 }
 
 /*

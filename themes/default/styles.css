@@ -365,7 +365,7 @@ table.tabbed-table a, table.tabbed-table a:visited, table.tabbed-table a:hover {
   /* border: 1px #365D95 solid; */
   margin: 1.5em 1em 0em 1em;
  /* border-bottom: black 1px solid; */
-  padding-top:20px;
+  padding-top:28px;
   padding-left:4px; 
   vertical-align:middle;
 }
@@ -1002,6 +1002,7 @@ pre.badgeSnippet {
 #liquid-round {
   background-image:url('images/books_top.png');
   background-repeat:no-repeat;
+  background-position:  top-center;
   /*background-size:100% ;*/
   width:100%; 
   margin-left:auto;

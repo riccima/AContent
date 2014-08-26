@@ -38,6 +38,7 @@ $course_access = new CoursesDAO();
                  header('Location: '.$_base_href.'index.php');
                  $msg->addError('NO_PRIV');
                  exit;
+                }
             }
            
         }

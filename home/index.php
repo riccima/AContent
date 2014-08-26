@@ -52,7 +52,7 @@ $courses = isset($catid) ? $coursesDAO->getByCategory($catid) : $coursesDAO->get
 if (isset($_SESSION['user_id'])) {
     
     if ($_current_user->isAdmin($session_user_id) == 1){
-        $my_courses_admin = $coursesDAO->getAllByMostRecent(); 
+        $my_courses_admin= $coursesDAO->getAllByMostRecent(); 
         if ($my_courses_admin) $courses = array_merge((array)$my_courses_admin, (array)$courses);
         
     }

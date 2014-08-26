@@ -32,8 +32,9 @@ $course_access = new CoursesDAO();
         
         if (isset($_current_user)){
             
-            if (!$_current_user->isAuthor($courseid) || !$_current_user->isAdmin()) {
-                     
+            if (!$_current_user->isAuthor($courseid)) {
+                
+                if (!$_current_user->isAdmin()){     
                  header('Location: '.$_base_href.'index.php');
                  $msg->addError('NO_PRIV');
                  exit;

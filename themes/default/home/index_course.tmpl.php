@@ -56,6 +56,16 @@ function addDescriptionLine($value, $message, $breakAfter = FALSE, $breakAfterDe
     return sprintf('<div><strong>%s:</strong>%s %s</div>%s', _AT($message), $htmlBreak1, $value, $htmlBreak2);
 }
 
+function addDescriptionLine_copyright($value) { //visualization of copyright's description 
+    if ($value == '') {
+        return '';
+    }
+    // Some different variations of markup for specific fields
+    
+    return sprintf('<div><strong>%s</strong><br />',$value);
+}
+
+
 if (is_array($this->courses)) {
     global $_current_user;
     $userCoursesDAO = new UserCoursesDAO();
@@ -67,6 +77,7 @@ if (is_array($this->courses)) {
     $htmlSeparator = '&nbsp;&nbsp;&nbsp;';
     
     echo '<div class="results">';
+    
 
     $num_results = count($this->courses);
     print_paginator($this->curr_page_num, $num_results, $url_param, RESULTS_PER_PAGE, 5, '1');
@@ -108,6 +119,9 @@ if (is_array($this->courses)) {
         $primary_language = $row['primary_language'];
         $access = $row['access'];
         $author = $row['user_id'];
+        $text_copyright = substr($row['copyright'], strpos($row['copyright'],'*')+1,  strlen($row['copyright']));
+        $title_copyright = substr($row['copyright'],0, strpos($row['copyright'],'*'));
+        
         $course_link = sprintf('home/course/index.php?_course_id=%d', $course_id);
         
         $created_date = ($created_date != NULL && $created_date != '0000-00-00 00:00:00') ? $created_date : '';
@@ -115,6 +129,7 @@ if (is_array($this->courses)) {
         $primary_language = ($primary_language != NULL) ? $primary_language : '';
         $course_description = ($course_description != NULL) ? $course_description : '';
         $access = ($access != NULL) ? $access : '';
+        $license = ($license != NULL) ? $license : '';
         
         $primary_language = $langCodesDAO->getLanguageByCode($primary_language);
         $author = $usersDAO->getUserByID($author);
@@ -129,10 +144,14 @@ if (is_array($this->courses)) {
         echo '<li class="course area">';
             echo '<div class="topRow">';
                 // An icon on the left of the topic name to indicate if course belongs to the current user
-                if ($user_role == TR_USERROLE_AUTHOR) {
+                if ($user_role == TR_USERROLE_AUTHOR && $row['access'] == 'public') {
                     $file_name = 'my_own_course.gif'; $title = 'my_authoring_course';
                 } else {
-                    $file_name = 'others_course.png'; $title = 'others_course';
+                    if ($row['access'] =='private') {
+                        $file_name = 'my_private_course.png'; $title = 'my_private_course ';
+                    }else{
+                     $file_name = 'others_course.png'; $title = 'others_course';
+                    }                    
                 }
                 echo createShortCutIcon($file_name, $title);
                 
@@ -165,7 +184,9 @@ if (is_array($this->courses)) {
                     
                     // A DB icon for Download Common Cartridge
                     echo sprintf('%s<a href="home/imscc/ims_export.php?course_id=%d">%s</a>', $htmlSeparator, $course_id, createShortCutIcon('export_cc.png', 'download_common_cartridge'));
+                    /// icon for send to moodle 
                     
+                    echo sprintf('%s<a href="home/imscc/send_to_moodle.php?course_id=%d">%s</a>', $htmlSeparator, $course_id, createShortCutIcon('export_moodle.png', 'send_to_moodle'));                
                     // Delete button markup
                     if(isset($session_user_id)) {
                         // If user is an Admin or an Author of the course then display a delete icon
@@ -176,12 +197,15 @@ if (is_array($this->courses)) {
                 echo '</div>';
                 // Extra information about the course goes here
                 echo '<div class="description">';
+                                               
                     echo addDescriptionLine($author, 'author', TRUE, FALSE);
                     echo addDescriptionLine($created_date, 'date_created');
                     echo addDescriptionLine($modified_date, 'last_modified');
                     echo addDescriptionLine($primary_language, 'primary_language');
                     echo addDescriptionLine($access, 'access', TRUE);
                     echo addDescriptionLine($course_description, 'description', TRUE, TRUE);
+                    echo addDescriptionLine($title_copyright, 'license');
+                    echo addDescriptionLine_copyright($text_copyright);
                     
                     echo sprintf('<a href="%s" class="courseName">%s</a>', $course_link, _AT('goto_course', $course_title));
                     echo '<br />&nbsp;';

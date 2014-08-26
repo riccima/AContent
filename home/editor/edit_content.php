@@ -12,15 +12,23 @@
 
 define('TR_INCLUDE_PATH', '../../include/');
 
-global $associated_forum, $_course_id, $_content_id;
+global $associated_forum, $_course_id, $_content_id ;
 
 require(TR_INCLUDE_PATH.'vitals.inc.php');
 require_once(TR_INCLUDE_PATH.'lib/tinymce.inc.php');
 require_once(TR_INCLUDE_PATH.'classes/FileUtility.class.php');
 require_once(TR_INCLUDE_PATH.'classes/DAO/DAO.class.php');
 
-Utility::authenticate(TR_PRIV_ISAUTHOR);
 
+if (isset ($_current_user)){
+    if ($_current_user->isAdmin() || $_current_user->isAuthor($_course_id) ){
+        Utility::authenticate(TR_PRIV_ISAUTHOR);
+    }
+    else{
+        Utility::authenticate(2);
+    }
+        
+}
 /* In $cid abbiamo il numero della pagina aperta*/
 $cid = $_content_id;
 $dao = new DAO();

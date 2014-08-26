@@ -123,12 +123,31 @@ class UserCoursesDAO extends DAO {
     public function getByUserID($user_id)
     {
         $sql = "SELECT * FROM ".TABLE_PREFIX."user_courses uc, ".TABLE_PREFIX."courses c
-                 WHERE uc.user_id=".$user_id."
+                 WHERE uc.user_id=".$user_id." 
                    AND uc.course_id = c.course_id
-                 ORDER BY c.title";
+                   ORDER BY c.title";
         return $this->execute($sql);
     }
 
+    public function getByUserIDPrivateCourses($user_id)
+    {
+         
+        $sql = "SELECT * FROM (SELECT * FROM ".TABLE_PREFIX."courses pc WHERE pc.access ='private') c , ".TABLE_PREFIX."user_courses uc  
+                WHERE uc.user_id=".$user_id."  
+                AND uc.course_id = c.course_id 
+                ORDER BY c.title";
+        
+        return $this->execute($sql);
+        
+       
+        
+        
+        
+    }
+        
+    
+    
+    
     /**
      * Return course information by given user id
      * @access  public

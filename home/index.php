@@ -45,9 +45,22 @@ if (isset($action, $_GET['cid']) && $session_user_id > 0) {
     $msg->addFeedback(ACTION_COMPLETED_SUCCESSFULLY);
 }
 
-unset($courses);
+unset( $courses);
 $courses = isset($catid) ? $coursesDAO->getByCategory($catid) : $coursesDAO->getByMostRecent();
 
+
+if (isset($_SESSION['user_id'])) {
+    
+    if ($_current_user->isAdmin($session_user_id) == 1){
+        $my_courses_admin = $coursesDAO->getAllByMostRecent(); 
+        if ($my_courses_admin) $courses = array_merge((array)$my_courses_admin, (array)$courses);
+        
+    }
+    
+    $my_courses = $userCoursesDAO->getByUserIDPrivateCourses($_SESSION['user_id']); 
+    if ($my_courses) $courses = array_merge((array)$my_courses, (array)$courses);
+ }
+ 
 // If the user is not an admin then we better filter out courses with empty content
 if (!$session_user_id || ($session_user_id && $_current_user->isAdmin($session_user_id) != 1)) {
     foreach ($courses as $i => $course) {
@@ -65,7 +78,9 @@ if (!$session_user_id || ($session_user_id && $_current_user->isAdmin($session_u
             }
         }
     }
+    
     $courses = array_values($courses);
+    
 }
 
 // 22/11/2012
@@ -80,6 +95,7 @@ $curr_page_num = intval($_GET['p']);
 if (!$curr_page_num) {
     $curr_page_num = 1;
 }
+
 $savant->assign('courses', $courses);
 $savant->assign('categories', $courseCategoriesDAO->getAll());
 $savant->assign('curr_page_num', $curr_page_num);

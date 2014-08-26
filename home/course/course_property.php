@@ -49,9 +49,8 @@ else if($_POST['submit']){
 			$coursesDAO->UpdateField($_course_id, 'category_id', $_POST['category_id']);
 			$coursesDAO->UpdateField($_course_id, 'primary_language', $_POST['pri_lang']);
 			$coursesDAO->UpdateField($_course_id, 'description', $_POST['description']);
-			$coursesDAO->UpdateField($_course_id, 'copyright', $_POST['copyright']);
-
-			$coursesDAO->UpdateField($_course_id, 'access', $access);
+			$coursesDAO->UpdateField($_course_id, 'copyright', $_POST["copyright_title"]."*".$_POST['copyright']);
+                        $coursesDAO->UpdateField($_course_id, 'access', $access);
 			
 			 if($_current_user->isAdmin()) { 
 			 		$coursesDAO->UpdateField($_course_id, 'user_id', $_POST['this_author']);
@@ -61,7 +60,7 @@ else if($_POST['submit']){
 		else 
 		{ // create a new course
 			if ($course_id = $coursesDAO->Create($_SESSION['user_id'], 'top', $access, $_POST['title'], $_POST['description'], 
-			                    null, null, null, $_POST['copyright'], $_POST['pri_lang'], null, null))
+			                    null, null, null, $_POST["copyright_title"]."*".$_POST['copyright'], $_POST['pri_lang'], null, null))
 			{
 				if(isset($_POST['_struct_name'])) {
 					

@@ -79,20 +79,38 @@ require_once(TR_INCLUDE_PATH.'classes/CoursesUtility.class.php');
 		
                 <tr>
                         <td align="left"><label for="copyright"><?php echo _AT('course_copyright'); ?></label></td>
-                            <td><select id='copyright_index'>
-                                <?php
-                                    $xml = simplexml_load_file(TR_INCLUDE_PATH.'copyrights/copyrights.xml');
+                            <td><select id='copyright_index' name="copyright_title">
+                                <?php 
+                                    $xml = simplexml_load_file(TR_INCLUDE_PATH.'copyrights/copyrights.xml'); // modifiche per ricercare la licenza nel db 
                                     foreach($xml->copyright as $copyright)
-                                        echo '<option value="copyright'.$copyright_number.'">'.$copyright->title.'</option>';
-                                ?>
+                                        {                                        
+                                    
+                                         echo '<option value="'.$copyright->title.'"'; 
+                                         
+                                         if ($this->course_id > 0 ){
+                                         
+                                             $copyright_title = explode("*",stripslashes(htmlspecialchars($this->course_row['copyright'])));
+                                             
+                                             if ($copyright_title[0] == $copyright->title )  echo ' selected ';                                        
+                                         }
+                                           
+                                         echo '>'.$copyright->title.'</option>';
+                                          
+                                        }
+                                        ?> 
                             </select></td>
+                           
                 </tr>
                 <tr>
-                        <td></td><td align="left"><textarea name="copyright" rows="6" cols="65" id="copyright" style="display:none">
-                            <?php
-                                if (isset($_POST['copyright']))
-                                    echo stripslashes(htmlspecialchars($_POST['copyright']));
-                                else echo stripslashes(htmlspecialchars($this->course_row['copyright']));
+                        <td></td><td align="left"><textarea name="copyright" rows="6" cols="65" id="copyright">
+                            <?php 
+                                
+                                if ($copyright_title[0] =='Other') {
+                                    echo $copyright_title[1];
+                                  //  $flag_js = 1 ;
+                                    
+                                }
+                                
                             ?>
                         </textarea></td>
                 </tr>
@@ -128,7 +146,7 @@ require_once(TR_INCLUDE_PATH.'classes/CoursesUtility.class.php');
 </fieldset>
 </div>
 </form>
-
+    
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#copyright_index').change(function () {
@@ -142,11 +160,12 @@ require_once(TR_INCLUDE_PATH.'classes/CoursesUtility.class.php');
                         $('#copyright').show();
                         $('#copyright').attr("readonly",isLastSelected?false:true);
                     }
-                    
+                       
                     $.ajax({ type: "GET", url: "include/copyrights/copyrights.xml", dataType: "xml", success: function(xml) {
                         $(xml).find('copyright').each(function() {
                           if (copyright_index_selected === $(this).find('title').text()) {
                               $('#copyright').text($(this).find('text').text());
+                                // metodo title più testo $('#copyright').text($(this).find('title').text()+"\n"+$(this).find('text').text());
                           }
                         });
                       },
@@ -154,4 +173,4 @@ require_once(TR_INCLUDE_PATH.'classes/CoursesUtility.class.php');
                     });
                 });
             });
-        </script>
+    </script> 

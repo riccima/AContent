@@ -327,7 +327,7 @@ class ContentDAO extends DAO {
 		
 		return $this->execute($sql);
 	}
-
+                
 	/**
 	 * Return max ordering based on given course id and content parent id 
 	 * @access  public

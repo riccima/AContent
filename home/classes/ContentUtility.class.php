@@ -700,6 +700,10 @@ class ContentUtility {
 				  'title' => _AT('export_content_in_cc'), 
 				  'url' => $_base_href . 'home/imscc/ims_export.php?_cid='.$content_row['content_id'].SEP.'to_a4a=1',
 				  'icon' => $_base_href . 'themes/'.$_SESSION['prefs']['PREF_THEME'].'/images/export_cc.png');
+                        $tool_shortcuts[] = array(
+				  'title' => _AT('send_to_moodle'), 
+				  'url' => $_base_href . 'home/imscc/send_to_moodle.php?_cid='.$content_row['content_id'].SEP.'to_a4a=1',
+				  'icon' => $_base_href . 'themes/'.$_SESSION['prefs']['PREF_THEME'].'/images/export_moodle.png');
 		}
 		
 		if (isset($_current_user) && ($_current_user->isAuthor($_course_id) || $_current_user->isAdmin())) {
@@ -1067,5 +1071,32 @@ class ContentUtility {
 			$_SESSION['s_cid'] = $content_id;
 		}
 	}
+
+
+    public static function checkPrivilegies ($content_row){
+        
+        global $_current_user , $_course_id , $contenrManager ;
+        
+       
+        if (!$_current_user) {
+            
+            print_r($content_row);
+            exit();
+            
+            
+            
+            
+        }
+            
+            
+            
+           
+        
+        
+    
+    
+    
+    } 
+
 }
 ?>

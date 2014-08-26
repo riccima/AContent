@@ -248,21 +248,22 @@ div.paging li a:hover, div.paging li a.current {
 }
 /* floating layout */
 #contentwrapper{
-  width: 99%;
+  width: 100%;
 }
 #contentcolumn {
   margin-left: 0.5em;
   padding-right: 5px;
 }
 #contentcolumn_shiftright {
-  margin-left: 18em;
+  margin-left: 18em; 
+ 
 }
 #leftcolumn{
 height:100%;
   float: left;
   width: 17em;
   margin-left: 1px;
-  background-color: #EBF4FA;
+  background-color: #FFF;  
 }
 #footer{
   /*position:absolute;
@@ -272,6 +273,7 @@ height:100%;
   width: 100%;
   text-align: center;
   padding: 4px 0px;
+  margin-top: 70px;
   color:white;
 }
 #footer a{
@@ -279,6 +281,8 @@ height:100%;
 }
 #side-menu{
   overflow:hidden;
+  
+   
 
 }
 
@@ -455,7 +459,9 @@ div#sub-menu {
   height:2.1em;
 }
 div#sub-navigation {
-   float:left;
+   
+    float:left;
+   
 }
 div#subnavlistcontainer {
   width:95%;
@@ -802,14 +808,15 @@ h4.box {
 div.box {
   background-color: #EBF4FA;
   color: black;
-  /*
+  
   border-left: 1px solid #B8AE9C;
   border-right: 1px solid #B8AE9C;
   border-bottom: 1px solid #B8AE9C;
-  */
+  border-top: 1px solid #B8AE9C;
   font-size:0.8em;
   font-weight: normal;
   padding:4px;
+    
   -moz-border-radius:.0em .0em .3em .3em;
   border-radius:.0em .0em .3em .3em;
 }
@@ -1399,20 +1406,25 @@ div.shortcuts{
   border-left:1px solid #cccccc;
   border-right:1px solid #cccccc;
   border-bottom:1px solid #cccccc;
+  
   border-radius: 0em 0em .2em .2em;
   -moz-border-radius: 0em 0em .2em .2em;
   float:right;
-  margin-right:2em;
+  margin-right:0.1em;
+  
   padding: 0.1em 0.3em 0.3em 0.5em;
   line-height: 1.5em;
+  
 }
-.shortcuts ul {
+#rightcolumn ul {
   position: relative;
   margin-top: 0pt;
   margin-bottom: 0pt;
   margin-left: 0pt;
+  margin-right: 2pt;
   list-style-type:  none;
-  padding-left: 0pt; 
+  padding-left: 0pt;
+    
 }
 .shortcuts li{
   display: inline;

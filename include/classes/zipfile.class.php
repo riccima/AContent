@@ -245,6 +245,32 @@ class zipfile {
 		FileUtility::readfile_in_chunks($this->zipfile_dir.$this->filename.'.zip');
 		exit;
 	}
+        
+        function send_to_moodle($file_name) {
+		if (!$this->is_closed) {
+			$this->close();
+		}
+		$file_name = str_replace(array('"', '<', '>', '|', '?', '*', ':', '/', '\\','_imscc'), '', $file_name);
+              //  $file_name = substr($filename['copyright'],0, strpos($row['copyright'],'*'));
+		//header("Content-type: archive/zip");
+		//header("Content-disposition: attachment; filename=$file_name.zip");
+		// @Authoring tool for store the zip package; 
+                mkdir(TR_CONTENT_DIR.$file_name);
+                $str_dest_moodle = MOODLE_DIRECTORY.$file_name.'.zip';
+                $str_dest = TR_CONTENT_DIR.$file_name."/".$file_name.'.zip';
+                $str_source = $this->zipfile_dir.$this->filename.'.zip';
+                shell_exec("cp -r $str_source $str_dest_moodle"); 
+               // $msg->addFeedback('MOODLE_IMPORT_SUCCESS');
+                header('Location: ../index.php');
+             
+              
+             
+             
+              
+	}
+        
+        
+        
 
 	/**
 	 * Destructor - removes temporary folder and its content.

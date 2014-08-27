@@ -48,17 +48,20 @@ if (isset($action, $_GET['cid']) && $session_user_id > 0) {
 unset( $courses);
 $courses = isset($catid) ? $coursesDAO->getByCategory($catid) : $coursesDAO->getByMostRecent();
 
-
 if (isset($_SESSION['user_id'])) {
     
     if ($_current_user->isAdmin($session_user_id) == 1){
-        $my_courses_admin= $coursesDAO->getAllByMostRecent(); 
-        if ($my_courses_admin) $courses = array_merge((array)$my_courses_admin, (array)$courses);
+        $my_courses_admin= $coursesDAO->getAllByMostRecent();          
+        if ($my_courses_admin) $courses = $my_courses_admin;
+        
+    }
+    else{
+         $my_courses = $userCoursesDAO->getByUserIDPrivateCourses($_SESSION['user_id']); 
+         if ($my_courses) $courses = array_merge((array)$my_courses, (array)$courses);
         
     }
     
-    $my_courses = $userCoursesDAO->getByUserIDPrivateCourses($_SESSION['user_id']); 
-    if ($my_courses) $courses = array_merge((array)$my_courses, (array)$courses);
+   
  }
  
 // If the user is not an admin then we better filter out courses with empty content

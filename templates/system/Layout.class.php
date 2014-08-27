@@ -411,6 +411,7 @@ class Layout{
                 
 		for($i=0; $i < count($rows); $i++){
                         
+                        if($rows[$i]['layout'] == '' || !$this->exist_layout($rows[$i]['layout'])) $rows[$i]['layout'] = 'unibo';
 			if($rows[$i]['layout'] != '' && $this->exist_layout($rows[$i]['layout'])){
 				// In another version, AContent requires 'commoncartridge' as folder
 				$rows[$i]['head']					= '<link rel="stylesheet" href="commoncartridge/'.$rows[$i]['layout'].'.css" type="text/css" />'.$rows[$i]['head'];

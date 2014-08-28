@@ -159,7 +159,8 @@ span.padding_left {
   padding-left: 1em;
 }
 em {
-  font-weight: normal;
+  font-weight:normal;
+      
 }
 span.small_font {
   font-size: smaller;
@@ -1218,7 +1219,7 @@ li.course.area .collapsible .courseIcons {
 }
 
 ol li{
-  list-style:normal;
+  list-style: none;
 }
 div.box ol{
   list-style:none;

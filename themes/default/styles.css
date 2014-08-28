@@ -23,7 +23,7 @@
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
-  font-weight: bold;
+  font-weight:normal;
   src: local('Droid Sans'), url('fonts/DroidSans-Bold.ttf') format('truetype');
 }
 
@@ -1129,7 +1129,7 @@ margin-right:auto;
 }
 .goto{
 height:2em;
-width:2em;
+eightdth:2em;
 }
 #gototop{
 font-size:smaller;

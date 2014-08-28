@@ -23,7 +23,7 @@
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
-  font-weight:normal;
+  font-weight:bold;
   src: local('Droid Sans'), url('fonts/DroidSans-Bold.ttf') format('truetype');
 }
 
@@ -159,7 +159,7 @@ span.padding_left {
   padding-left: 1em;
 }
 em {
-  font-weight: bold;
+  font-weight: normal;
 }
 span.small_font {
   font-size: smaller;
@@ -1218,7 +1218,7 @@ li.course.area .collapsible .courseIcons {
 }
 
 ol li{
-  list-style:none;
+  list-style:normal;
 }
 div.box ol{
   list-style:none;

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<layout version="0.1">
+  <name lang="en">
+    Standard 
+  </name>
+  <description lang="en">
+    Tema Standard
+  </description>
+  <maintainers>
+    <maintainer>
+      <name>
+        Matteo Ricci 
+      </name>
+      <email>
+        
+      </email>
+    </maintainer>
+  </maintainers>
+  <url/>
+  <license/>
+  <release>
+    <version>
+      1.x
+    </version>
+    <date/>
+    <state>
+      stable
+    </state>
+    <notes/>
+  </release>
+</layout>

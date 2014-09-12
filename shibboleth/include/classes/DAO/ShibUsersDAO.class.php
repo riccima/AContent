@@ -181,9 +181,7 @@ class ShibUsersDAO extends UsersDAO {
                 global $_shib_acontent_attribute_map;
                 
                 $profile_user['login']= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
-               
-                $user = $this->getUserByID($userID);
-                                
+                                                               
                 $sql = "UPDATE ".TABLE_PREFIX."users SET ";
 			
 			foreach ($profile_user as $key => $value)
@@ -210,6 +208,7 @@ class ShibUsersDAO extends UsersDAO {
         public function isUserFieldsMissing($userID)
 	{
 		$user = $this->getUserByID($userID);
+                $user['login']= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
 		if($this->isFieldsValid($userID, $user['user_group_id'], $user['login'], $user['email'], $user['first_name'], $user['last_name'],
 		                        $user['is_author'], $user['organization'], $user['phone'], $user['address'], $user['city'],
 	                            $user['province'], $user['country'], $user['postal_code']))

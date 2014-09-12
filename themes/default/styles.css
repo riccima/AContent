@@ -1181,7 +1181,7 @@ li.course.area {
     border-style: solid;
     border-width: 1px;
     border-radius: 5px;
-
+    
 }
 li.course.area .topRow {
     padding: 1.5em;
@@ -1568,7 +1568,7 @@ background-color:#ffffff;
 }
 .fl-uploader-queue-footer {
     background-color: #EBF4FA !important;
-    border-top: 1px solid #206BA4 !improtant;
+    border-top: 1px solid #206BA4 !important;
     color: #4D4D4D;
     font-size: 1.07em;
     font-weight: bold;

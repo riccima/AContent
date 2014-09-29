@@ -184,9 +184,8 @@ if (is_array($this->courses)) {
                     
                     // A DB icon for Download Common Cartridge
                     echo sprintf('%s<a href="home/imscc/ims_export.php?course_id=%d">%s</a>', $htmlSeparator, $course_id, createShortCutIcon('export_cc.png', 'download_common_cartridge'));
-                    /// icon for send to moodle 
-                    
-                    echo sprintf('%s<a href="home/imscc/send_to_moodle.php?course_id=%d">%s</a>', $htmlSeparator, $course_id, createShortCutIcon('export_moodle.png', 'send_to_moodle'));                
+                    /// icon for send to moodle not ready
+                    //  echo sprintf('%s<a href="home/imscc/send_to_moodle.php?course_id=%d">%s</a>', $htmlSeparator, $course_id, createShortCutIcon('export_moodle.png', 'send_to_moodle'));                
                     // Delete button markup
                     if(isset($session_user_id)) {
                         // If user is an Admin or an Author of the course then display a delete icon

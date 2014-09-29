@@ -144,9 +144,9 @@ if (TRUE || $framed != TRUE) {
 	
 	// filemanager listing table
 	// make new directory 
-	echo '<div class="input-form"><fieldset class="group_form"><legend class="group_form">'._AT('add_file_folder').'</legend>'."\n";
-	echo '	<div class="row">'."\n";
-	echo '		<form name="form1" method="post" action="'.$_SERVER['PHP_SELF'].'?'.(($pathext != '') ? 'pathext='.urlencode($pathext).SEP : ''). 'popup='.$popup.SEP.'cp='.SEP.$_GET['cp'].SEP.'pid='.$_GET['pid'].SEP.'cid='.$cid.SEP.'a_type='.$a_type.'">'."\n";
+	echo '  <div class="input-form"><fieldset class="group_form"><legend class="group_form">'._AT('add_file_folder').'</legend>'."\n";
+/*	echo '	<div class="row">'."\n";
+	echo '	<form name="form1" method="post" action="'.$_SERVER['PHP_SELF'].'?'.(($pathext != '') ? 'pathext='.urlencode($pathext).SEP : ''). 'popup='.$popup.SEP.'cp='.SEP.$_GET['cp'].SEP.'pid='.$_GET['pid'].SEP.'cid='.$cid.SEP.'a_type='.$a_type.'">'."\n";
 	if( $MakeDirOn ) {
 		if ($depth < $MaxDirDepth) {
 			echo '		<label for="dirname">'._AT('create_folder_here').'</label><br />'."\n";
@@ -160,9 +160,9 @@ if (TRUE || $framed != TRUE) {
 	}
 	echo '		<input type="hidden" name="pathext" value="'.$pathext.'" />'."\n";
 	echo '		</form>'."\n";
-	echo '	</div>'."\n";
+	echo '	</div>'."\n";*/
 
-	echo '	<div class="row"><hr /></div>'."\n";
+	//echo '	<div class="row"><hr /></div>'."\n";
 
     // If flash is available, provide the option of using Fluid's uploader or the basic uploader
 	if (isset($_SESSION['flash']) && $_SESSION['flash'] == "yes") {

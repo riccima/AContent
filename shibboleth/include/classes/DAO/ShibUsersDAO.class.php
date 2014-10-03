@@ -211,6 +211,7 @@ class ShibUsersDAO extends UsersDAO {
 		
                 if (!$user['login']) {
                     
+                    $user['login'] = '';
                     $login_name= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
                     $user['login'] = $login_name ;
                 }

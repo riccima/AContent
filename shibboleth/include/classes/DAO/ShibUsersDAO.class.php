@@ -213,7 +213,8 @@ class ShibUsersDAO extends UsersDAO {
                     {
                     $login_name= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
                     $user['login'] = $login_name ;
-                
+                    }
+                                    
 		if($this->isFieldsValid($userID, $user['user_group_id'], $user['login'], $user['email'], $user['first_name'], $user['last_name'],
 		                        $user['is_author'], $user['organization'], $user['phone'], $user['address'], $user['city'],
 	                            $user['province'], $user['country'], $user['postal_code']))

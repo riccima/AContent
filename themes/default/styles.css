@@ -1061,6 +1061,9 @@ border-radius:.8em .8em .8em .8em;
   position:relative;
   height:60px;
 }
+div#content ol li{ 
+      list-style:decimal;
+}
 
 /* Navigation tab style */
 div.topnavlistcontainer {
@@ -1222,9 +1225,6 @@ ol li{
   list-style:none;
 }
 
-div#content ol li{
-  list-style:decimal;
-}
 
 div.box ol{
   list-style:none;

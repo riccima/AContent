@@ -179,10 +179,12 @@ class ShibUsersDAO extends UsersDAO {
 	{
                 global $profile_user;
                 global $_shib_acontent_attribute_map;
+              
+
+                $profile_user['login'] = '';
+                $login_name= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
+                $profile_user['login']= $login_name ;
                 
-               $login_name= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
-               $profile_user['login']= $login_name ;
-               
 
                 $sql = "UPDATE ".TABLE_PREFIX."users SET ";
 			
@@ -213,7 +215,7 @@ class ShibUsersDAO extends UsersDAO {
 		$user = $this->getUserByID($userID);                                  
                     if (!$user['login'])
                     {
-                    $login_name= substr($_SERVER['eppn'],0, strpos($_SERVER['eppn'],'@'));
+                    $login_name= substr($user['email'],0, strpos($user['email'],'@'));
                     $user['login'] = $login_name ;
                     }
 

@@ -43,16 +43,14 @@ else
 {
 	$usersDAO->setLastLogin($user_id);
 	$_SESSION['user_id'] = $user_id;
-	$msg->addFeedback('LOGIN_SUCCESS');
+	//$msg->addFeedback('LOGIN_SUCCESS');
 }
 
 if($usersDAO->isUserFieldsMissing($user_id)) {
     $usersDAO->fillUSerFields($user_id);
-    $msg->addFeedback('LOGIN_SUCCESS');
     header('Location: ../index.php');
 }
 else{
-    $msg->addFeedback('LOGIN_SUCCESS');
     header('Location: ../index.php');
 }
  

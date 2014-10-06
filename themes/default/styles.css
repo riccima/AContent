@@ -1219,13 +1219,8 @@ li.course.area .collapsible .courseIcons {
 }
 
 ol li{
-  list-style:none;
+  list-style: none;
 }
-
-div#content ol li{
-  list-style:decimal;
-}
-
 div.box ol{
   list-style:none;
   list-style-position:inherit;

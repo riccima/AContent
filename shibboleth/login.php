@@ -46,6 +46,7 @@ else
 	//$msg->addFeedback('LOGIN_SUCCESS');
 }
 
+<<<<<<< HEAD
 if($usersDAO->isUserFieldsMissing($user_id)) {
     $usersDAO->fillUSerFields($user_id);
     header('Location: ../index.php');
@@ -53,5 +54,9 @@ if($usersDAO->isUserFieldsMissing($user_id)) {
 else{
     header('Location: ../index.php');
 }
+=======
+$usersDAO->isUserFieldsMissing($user_id) ;
+header('Location: ../index.php');
+>>>>>>> 522d87c042bf966e635d0ae72066b5b8571bed2e
  
 ?>

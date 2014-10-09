@@ -33,8 +33,11 @@ if (isset ($_current_user)){
 $cid = $_content_id;
 $dao = new DAO();
 
+
+
 if ($_POST) {
 	$do_check = TRUE;
+        if ($_POST['formatting']== 0) $_POST['formatting'] = 1 ; 
 } else {
 	$do_check = FALSE;
 }

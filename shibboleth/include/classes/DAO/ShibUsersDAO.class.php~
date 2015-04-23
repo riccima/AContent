@@ -1,0 +1,119 @@
+<?php
+
+/**
+ * DAO for "shib users"
+ * @access	public
+ * @author	Valentino Ricci
+ * @package	DAO
+ */
+
+if (!defined('TR_INCLUDE_PATH') || !defined('TR_SHIB_INCLUDE_PATH')) exit;
+
+require_once(TR_INCLUDE_PATH. 'classes/DAO/UsersDAO.class.php');
+require_once(TR_INCLUDE_PATH. 'classes/Utility.class.php');
+require_once(TR_INCLUDE_PATH. '../shibboleth/config.inc.php');
+
+class ShibUsersDAO extends UsersDAO {
+
+	/**
+	 * Validate if the given login/pwd is valid
+	 * @access  public
+	 * @param   login: login id or email
+	 *          pwd: password
+	 * @return  user id, if login/pwd is valid
+         *          -1 if user must be created
+	 *          false, if login/pwd is invalid
+	 * @author  Valentino Ricci
+	 */
+	public function Validate($login, $pwd)
+	{
+		global $_shib_user_identifier;
+
+		// If we are in the shibboleth directory then we trust the server var
+		if (!empty($_SERVER[$_shib_user_identifier])) {
+			// Associate Shibboleth session with user for SLO preparation
+			$sessionkey = false;
+			if (isset($_SERVER['Shib-Session-ID'])){
+				// This is only available for Shibboleth 2.x SPs
+				$sessionkey = $_SERVER['Shib-Session-ID'];
+			} else {
+				// Try to find out using the user's cookie
+				foreach ($_COOKIE as $name => $value){
+					if (preg_match('/_shibsession_/i', $name)){
+						$sessionkey = $value;
+					}
+				}
+			}
+			if(!$sessionkey)
+				return false;
+
+			// Set shibboleth session ID for logout
+			$_SESSION['shibboleth_session_id']  = $sessionkey;
+			$user = $this->getUserByShibID();
+			
+			if(!$user)
+			{
+				return -1;
+			}
+			return $user['user_id'];
+		}
+		return false;
+	}
+
+	/**
+	 * Return user information by given user id
+	 * @access  private
+	 * @return  user row
+	 * @author  Valentino Ricci
+	 */
+	private function getUserByShibID()
+	{
+		global $_shib_user_identifier;
+		global $_acontent_user_identifier;
+
+		$sql = 'SELECT * FROM '.TABLE_PREFIX.'users WHERE '.$_acontent_user_identifier.'=\''.$_SERVER[$_shib_user_identifier].'\'';
+
+		if ($rows = $this->execute($sql))
+		{
+			return $rows[0];
+		}
+		else return false;
+	}
+
+	/**
+	 * Create new shib user
+	 * @access  public
+	 * @return  user id, if successful
+	 *          false and add error into global var $msg, if unsuccessful
+	 * @author  Valentino Ricci
+	 */
+	public function CreateShibUser()
+	{
+		global $_shib_user_identifier;
+		global $_acontent_user_identifier;
+		global $_shib_acontent_attribute_map;
+
+		/* insert into the db */
+		$sql = "INSERT INTO ".TABLE_PREFIX."users
+		              (".$_acontent_user_identifier.",
+		               web_service_id,
+		               status,
+		               create_date
+		               )
+		       VALUES ('".$_SERVER[$_shib_user_identifier]."',
+		               '".Utility::getRandomStr(32)."',
+		               1, 
+		               now())";
+
+		if (!$this->execute($sql))
+		{
+			$msg->addError('DB_NOT_UPDATED');
+			return false;
+		}
+		else
+		{
+			return mysql_insert_id();
+		}
+	}
+}
+?>

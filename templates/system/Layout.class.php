@@ -406,12 +406,15 @@ class Layout{
 
 		$styles			= array();
 		$stylesheet		= '';
-		
+	
+                
+                
 		for($i=0; $i < count($rows); $i++){
-
-			if($rows[$i]['layout'] != ''){
+                        
+                        if($rows[$i]['layout'] == '' || !$this->exist_layout($rows[$i]['layout'])) $rows[$i]['layout'] = 'standard';
+			if($rows[$i]['layout'] != '' && $this->exist_layout($rows[$i]['layout'])){
 				// In another version, AContent requires 'commoncartridge' as folder
-				//$rows[$i]['head']					= '<link rel="stylesheet" href="commoncartridge/'.$rows[$i]['layout'].'.css" type="text/css" />'.$rows[$i]['head'];
+				$rows[$i]['head']					= '<link rel="stylesheet" href="commoncartridge/'.$rows[$i]['layout'].'.css" type="text/css" />'.$rows[$i]['head'];
 				//$rows[$i]['head']					= '<link rel="stylesheet" href="'.$rows[$i]['layout'].'.css" type="text/css" />'.$rows[$i]['head'];
 				$rows[$i]['use_customized_head']	= '1';
 
@@ -431,11 +434,15 @@ class Layout{
 							$zipfile->add_file($stylesheet, 'resources/commoncartridge/'.$rows[$i]['layout'].'.css');
 
 							// add images folder
-							$src	= '../../templates/layout/'.$rows[$i]['layout'].'/'.$rows[$i]['layout'].'/';
-							$dst	= 'resources/commoncartridge/'.$rows[$i]['layout'].'/';
-	
-							$zipfile->create_dir('resources/commoncartridge/'.$rows[$i]['layout'].'/');
-							$zipfile->add_dir($src, $dst);
+                                                        if ($rows[$i]['layout'] != 'nothing' && $rows[$i]['layout'] != 'standard' ) {
+                                                            $src = '../../templates/layout/'.$rows[$i]['layout'].'/'.$rows[$i]['layout'].'/'; 
+                                                            $dst	= 'resources/commoncartridge/'.$rows[$i]['layout'].'/';
+                                                            $zipfile->add_dir($src, $dst);
+                                                            $zipfile->create_dir('resources/commoncartridge/'.$rows[$i]['layout'].'/');
+                                                        }
+                                                      
+							
+							
 						}
 					}
 				}
@@ -445,6 +452,16 @@ class Layout{
 
 		return $rows;
 	}
+        
+        public function exist_layout($layout) {
+            
+                if(is_dir('../../templates/layout/'.$layout))
+                        return true;
+                else
+                        return false;
+        }
+        
+        
 
 }
 ?>

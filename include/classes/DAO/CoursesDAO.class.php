@@ -265,6 +265,13 @@ class CoursesDAO extends DAO {
 		         ORDER BY modified_date DESC, created_date DESC";
 		return $this->execute($sql);
 	}
+        
+        public function getAllByMostRecent()
+	{
+		$sql = "SELECT * FROM ".TABLE_PREFIX."courses 
+		        ORDER BY modified_date DESC, created_date DESC";
+		return $this->execute($sql);
+	}
 
 	/**
 	 * Return course information by given category id
@@ -499,5 +506,31 @@ class CoursesDAO extends DAO {
 		
 		return array($sql_where, $sql_order);
 	}
+        
+        
+        public function isPrivateCourseByContentID($contentID)
+	{
+            
+            
+		$contentID = intval($contentID);
+		$sql = "SELECT c.access FROM ".TABLE_PREFIX."courses c , ".TABLE_PREFIX."content ac ". 
+                        "WHERE ac.content_id=".$contentID." 
+                         AND ac.course_id = c.course_id" ;
+		
+		
+		$result  = $this->execute($sql); 
+                             
+                if ($result[0]['access'] == 'private') {
+                    return true ;
+                }
+               
+                return false ; 
+                
+         
+	}
+        
+        
+        
+        
 }
 ?>

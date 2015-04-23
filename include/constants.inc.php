@@ -124,9 +124,12 @@ if (strpos(@ini_get('arg_separator.input'), ';') !== false) {
 /* get the base url	*/
 if (isset($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on')) {
 	$server_protocol = 'https://';
+} else if (@$_SERVER['HTTP_X_FORWARDED_PROTO'] =='https') {
+	$server_protocol = 'https://';
 } else {
 	$server_protocol = 'http://';
 }
+
 
 $dir_deep	 = substr_count(TR_INCLUDE_PATH, '..');
 $url_parts	 = explode('/', $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);

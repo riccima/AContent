@@ -188,7 +188,7 @@ class UsersDAO extends DAO {
 		$country = $addslashes(trim($country));
 		$postal_code = $addslashes(trim($postal_code));
 		
-		if ($this->isFieldsValid('update', $user_group_id,$login, $email,$first_name, $last_name,
+		if ($this->isFieldsValid($userID, $user_group_id,$login, $email,$first_name, $last_name,
 		                         $is_author, $organization, $phone, $address, $city,
 	                             $province, $country, $postal_code))
 		{
@@ -382,27 +382,37 @@ class UsersDAO extends DAO {
 	 */
 	public function getUserName($userID)
 	{
+                
 		$row = $this->getUserByID($userID);
 		
 		if (!$row) return false;
 		
-		if ($row['first_name'] <> '' && $row['last_name'] <> '')
-		{
-			return $row['first_name']. ' '.$row['last_name'];
-		}
-		else if ($row['first_name'] <> '')
-		{
-			return $row['first_name'];
-		}
-		else if ($row['last_name'] <> '')
-		{
-			return $row['last_name'];
-		}
-		else
-		{
-			return $row['login'];
-		}
-	}
+		if (AUTH_METHOD == 'SHIB') {
+                    
+                return $row['email'];
+                
+               
+            }else {
+
+                if ($row['first_name'] <> '' && $row['last_name'] <> '')
+                {
+                    return $row['first_name']. ' '.$row['last_name'];
+                }
+                else if ($row['first_name'] <> '')
+                {
+                    return $row['first_name'];
+                }
+                else if ($row['last_name'] <> '')
+                {
+                    return $row['last_name'];
+                }
+                else
+                {
+                    return $row['login'];
+                }
+
+            }
+        }
 	
 	/**
 	 * Return given user's status
@@ -516,11 +526,17 @@ class UsersDAO extends DAO {
 	 *          false   if update unsuccessful
 	 * @author  Cindy Qi Li
 	 */
-	private function isFieldsValid($validate_type, $user_group_id, $login, $email, $first_name, $last_name,
+	protected function isFieldsValid($validate_type, $user_group_id, $login, $email, $first_name, $last_name,
 	                               $is_author, $organization, $phone, $address, $city,
 	                               $province, $country, $postal_code)
 	{
 		global $msg;
+		$user = null;
+		
+		if($validate_type!='new')
+		{
+			$user = $this->getUserByID($validate_type);
+		}
 		
 		$missing_fields = array();
 		/* login name check */
@@ -535,7 +551,7 @@ class UsersDAO extends DAO {
 			{
 				$msg->addError('LOGIN_CHARS');
 			}
-			else if ($validate_type == 'new' && $this->isLoginExists($login))
+			else if (($validate_type=='new' || $user['login']==null) && $this->isLoginExists($login))
 			{
 				$msg->addError('LOGIN_EXISTS');
 			}

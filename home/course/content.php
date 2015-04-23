@@ -15,16 +15,44 @@ require_once(TR_INCLUDE_PATH.'vitals.inc.php');
 require_once(TR_INCLUDE_PATH.'../home/classes/ContentUtility.class.php');
 require_once(TR_INCLUDE_PATH.'classes/DAO/ContentForumsAssocDAO.class.php');
 require_once(TR_INCLUDE_PATH.'classes/DAO/ContentDAO.class.php');
+require_once(TR_INCLUDE_PATH.'classes/DAO/CoursesDAO.class.php');
+
+
+
 
 global $_current_user, $_course_id, $_content_id, $contentManager;
 
 $cid = $_content_id;
 $courseid = $_course_id;
 
+$course_access = new CoursesDAO();
 
-if ($cid == 0) {
+//checkPrivilegies($contentManager->getContentPage($cid)); 
+    if ($course_access->isPrivateCourseByContentID($cid)) {
+        
+        if (isset($_current_user)){
+            
+            if (!$_current_user->isAuthor($courseid)) {
+                
+                if (!$_current_user->isAdmin()){     
+                 header('Location: '.$_base_href.'index.php');
+                 $msg->addError('NO_PRIV');
+                 exit;
+                }
+            }
+           
+        }
+        else {
+            header('Location: '.$_base_href.'index.php');
+            $msg->addError('NO_PRIV');
+            exit;
+        }
+       
+    }
+  
+if ($cid == 0 ) {
 	header('Location: '.$_base_href.'index.php');
-	exit;
+       	exit;
 }
 if (defined('TR_FORCE_GET_FILE') && TR_FORCE_GET_FILE) {
 	$_SESSION['course_id'] = $_course_id;  // used by get.php

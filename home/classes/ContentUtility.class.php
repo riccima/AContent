@@ -45,7 +45,22 @@ class ContentUtility {
 	
 		return $text;
 	}
-
+        
+        public static function getHTMLContent($text) {
+           //remove the content div if it exists
+           
+            
+            
+           if(strpos($text,'<div id="content">') !== false && strstr($text, '<div id="content">', true) == "") {
+                    //the div element with id=content is the first element so I remove it
+                    $text = substr($text, strlen('<div id="content">'));
+                    $text = trim(substr($text, 0, strlen($text)-strlen('</div>')));
+            }
+  
+            return $text;
+	}
+            
+  
 	/**
 	* This function cuts out requested tag information from html head
 	* @access  public
@@ -231,7 +246,7 @@ class ContentUtility {
      *          For instance: http://www.youtube.com/watch?v=a0ryB0m0MiM
      *          Otherwise, return the original send-in parameter.
      */
-    public function convertYoutubePlayURLToWatchURL($youtube_playURL) {
+    public static function convertYoutubePlayURLToWatchURL($youtube_playURL) {
         return preg_replace("/(http:\/\/[a-z0-9\.]*)?youtube.com\/v\/(.*)/",
                             "\\1youtube.com/watch?v=\\2", $youtube_playURL);
     }
@@ -685,6 +700,10 @@ class ContentUtility {
 				  'title' => _AT('export_content_in_cc'), 
 				  'url' => $_base_href . 'home/imscc/ims_export.php?_cid='.$content_row['content_id'].SEP.'to_a4a=1',
 				  'icon' => $_base_href . 'themes/'.$_SESSION['prefs']['PREF_THEME'].'/images/export_cc.png');
+                /*        $tool_shortcuts[] = array(
+				  'title' => _AT('send_to_moodle'), 
+				  'url' => $_base_href . 'home/imscc/send_to_moodle.php?_cid='.$content_row['content_id'].SEP.'to_a4a=1',
+				  'icon' => $_base_href . 'themes/'.$_SESSION['prefs']['PREF_THEME'].'/images/export_moodle.png'); shortcut expot moodle  not ready */
 		}
 		
 		if (isset($_current_user) && ($_current_user->isAuthor($_course_id) || $_current_user->isAdmin())) {
@@ -1052,5 +1071,32 @@ class ContentUtility {
 			$_SESSION['s_cid'] = $content_id;
 		}
 	}
+
+
+    public static function checkPrivilegies ($content_row){
+        
+        global $_current_user , $_course_id , $contenrManager ;
+        
+       
+        if (!$_current_user) {
+            
+            print_r($content_row);
+            exit();
+            
+            
+            
+            
+        }
+            
+            
+            
+           
+        
+        
+    
+    
+    
+    } 
+
 }
 ?>

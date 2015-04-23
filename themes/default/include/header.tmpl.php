@@ -60,13 +60,8 @@ $mtime = explode(' ', $mtime);
 $mtime = $mtime[1] + $mtime[0]; 
 $starttime = $mtime; 
 //Timer Ends
-
-
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo DEFAULT_LANGUAGE_CODE; ?>" lang="<?php echo DEFAULT_LANGUAGE_CODE; ?>"> 
-
 <head>
    <title><?php echo SITE_NAME; ?> : <?php echo $this->page_title; ?></title>
    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $this->lang_charset; ?>" />
@@ -74,8 +69,6 @@ $starttime = $mtime;
    <meta name="keywords" content="AContent, free, open source, elearning, authoring, common cartridge, content package, QTI, AccessForAll, AFA, repository" />
    <meta name="description" content="AContent is a standards compliant Web-based elearning content authoring tool and repository that can be used with any system that supports IMS content interoperability standards." />
    <base href="<?php echo $this->content_base_href; ?>" />
-
-   <!-- <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css' /> -->
    <link rel="icon" href="<?php echo $this->base_path; ?>favicon.ico" type="image/x-icon" /> 
    <link rel="stylesheet" href="<?php echo $this->base_path.'include/jscripts/infusion/framework/fss/css/fss-layout.css'; ?>" type="text/css" />
    <link rel="stylesheet" href="<?php echo $this->base_path.'include/jscripts/infusion/components/inlineEdit/css/InlineEdit.css'; ?>" type="text/css" />
@@ -90,9 +83,8 @@ $starttime = $mtime;
    <script src="<?php echo $this->base_path; ?>include/jscripts/flowplayer/flowplayer-3.2.4.min.js" type="text/javascript"></script>
    <script src="<?php echo $this->base_path; ?>include/jscripts/handleAjaxResponse.js" type="text/javascript"></script>
    <script src="<?php echo $this->base_path; ?>include/jscripts/transformable.js" type="text/javascript"></script>
-<?php echo $this->custom_css; ?>
+<?php echo $this->custom_head; ?>
    <script type="text/javascript">
-
       // check if AContent is into an iframe
       // if so, include the "iframe" stylesheet to hide header, side menu and footer
       // The use of another css instead of a media="print" is to keep separate the two objectives: print, iframe.
@@ -105,37 +97,55 @@ $starttime = $mtime;
             //jQuery("#content_frame").contents().find("body").height()
          });
       }
-
    </script>
+   <script type="text/javascript">
+        // if AContent is being presented in ATutor, which has its own content navigation
+        //  hide way all navigation elements
+        if(window.frameElement.id == "content_frame"){
+         document.writeln('<link rel="stylesheet" href="<?php echo $this->base_path.'themes/'.$this->theme; ?>/styles_iframe_atutor.css" type="text/css" />');
+        }
+    </script>
 </head>
-
 <body onload="<?php echo $this->onload; ?>">
-
-
-
 <div id="liquid-round">
-  
  <div class="center-content">
-<a href="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES); ?>#content" accesskey="c">
-   <img src="<?php echo $this->base_path; ?>images/clr.gif" height="1" width="1" border="0" alt="<?php echo _AT('goto_content'); ?> ALT+c" /></a>      
+    <a href="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES); ?>#content" accesskey="c">
+    <img src="<?php echo $this->base_path; ?>images/clr.gif" height="1" width="1" border="0" alt="<?php echo _AT('goto_content'); ?> ALT+c" /></a>      
 
    <a href="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES); ?>#menu<?php echo $_REQUEST['cid']  ?>"  accesskey="m"><img src="<?php echo $this->base_path; ?>images/clr.gif" height="1" width="1" border="0" alt="<?php echo _AT('goto_menu'); ?> ALT+m" /></a>
    <span id="logininfo">
         <?php
         if (isset($this->user_name))
         {
-          echo _AT('logged_in_as'). ' '.$this->user_name;
-        ?>
-            &nbsp;&nbsp;
-            <a href="<?php echo TR_BASE_HREF; ?>logout.php" ><?php echo _AT('logout'); ?></a>
+           ?>  
+             <?php 
+                         
+             echo $this->user_name;?>
+                    
+       
+              <a href="https://idp.unibo.it/adfs/ls/infoSSO.aspx">
+                <img alt="Informazioni sul Single Sign-On di Ateneo" title="Informazioni sul Single Sign-On di Ateneo" src="<?php echo $this->base_path; ?>images/logo_sso.png"></a> 
+         
+     
+                        
+       
+            
+            <a href="<?php echo TR_BASE_HREF; echo defined('ALTERNATE_LOGOUT_URL')?ALTERNATE_LOGOUT_URL : 'logout.php'; ?>"><?php echo _AT('logout'); ?></a>
         <?php
         }
         else
         {
         ?>
-            <a href="<?php echo TR_BASE_HREF; ?>login.php" ><?php echo _AT('login'); ?></a>
-            &nbsp;&nbsp;
-            <a href="<?php echo TR_BASE_HREF; ?>register.php" ><?php echo _AT('register'); ?></a>
+            <img alt="Informazioni sul Single Sign-On di Ateneo" title="Informazioni sul Single Sign-On di Ateneo" src="<?php echo $this->base_path; ?>images/logo_sso.png"></img>
+				<a href="<?php echo TR_BASE_HREF; echo defined('ALTERNATE_LOGIN_URL')?ALTERNATE_LOGIN_URL : 'login.php'; ?>" ><?php echo _AT('login'); ?></a>
+				&nbsp;&nbsp;
+				<?php 
+					if(!(defined('AUTH_METHOD') && AUTH_METHOD == "SHIB"))
+					{ ?>
+					<a href="<?php echo TR_BASE_HREF; ?>register.php" ><?php echo _AT('register'); ?></a>
+					<?php 
+					}
+					?>
         <?php
         }
         ?>
@@ -147,29 +157,25 @@ $starttime = $mtime;
 
   </div>
 
-  <div class="topnavlistcontainer">
+  <div class="topnavlistcontainer" role="navigation">
   <!-- the main navigation. in our case, tabs -->
     <ul class="navigation">
 <?php 
 
 foreach ($this->top_level_pages as $page) {
-
    if (strpos($page['url'], '?') > 0)  {
       $url_without_param = substr($page['url'], 0, strpos($page['url'], '?'));
    } else {
       $url_without_param = $page['url'];
    }
-   if ($url_without_param == $this->current_top_level_page) { 
-?>
+   if ($url_without_param == $this->current_top_level_page) { ?>
       <li class="navigation"><a href="<?php echo $page['url']; ?>" title="<?php echo $page['title']; ?>" class="active"><?php echo $page['title']; ?></a></li>
 <?php } else { ?>
-
    <?php
-   
-      if(!isset($this->course_id) && (strstr($page['url'],"tests") || strstr($page['url'],"file_manager"))){ 
-      // don't display tests and file manager for admins when not in a lesson
-      }else{ ?>
-      <li class="navigation"><a href="<?php echo $page['url']; ?>"  title="<?php echo $page['title']; ?>"><?php echo $page['title']; ?></a></li>
+        if(!isset($this->course_id) && (strstr($page['url'],"tests") || strstr($page['url'],"file_manager"))){ 
+         // don't display tests and file manager for admins when not in a lesson
+         }else{ ?>
+         <li class="navigation"><a href="<?php echo $page['url']; ?>"  title="<?php echo $page['title']; ?>"><?php echo $page['title']; ?></a></li>
          <?php } ?>
 <?php } // endif
 
@@ -177,28 +183,11 @@ foreach ($this->top_level_pages as $page) {
     </ul>
   </div>
 
-<!--
-  <div class="topnavlistcontainer">
-    <ul class="topnavlist">
-    <?php foreach ($this->top_level_pages as $page): ?>
-    <?php if ($page['url'] == $this->current_top_level_page): ?>
-      <li><a href="<?php echo $page['url']; ?>" title="<?php echo $page['title']; ?>" class="active"><?php echo $page['title']; ?></a></li>
-    <?php else: ?>
-      <li><a href="<?php echo $page['url']; ?>"  title="<?php echo $page['title']; ?>"><?php echo $page['title']; ?></a></li>
-    <?php endif; ?>
-    <?php endforeach;?>
-    </ul>
-  </div>
--->
-
-
    <!-- the sub navigation and guide -->
   <div id="sub-menu">
-   
-      <div class="search_top">
+      <div class="search_top" role="search">
       <form target="_top" action="<?php echo TR_BASE_HREF; ?>home/search.php" method="get">
-        <input type="text" title="<?php echo _AT("search"); ?>" name="search_text" id="search_text_at_header" value="<?php if (isset($_GET['search_text'])) echo htmlentities_utf8($_GET['search_text'], ENT_QUOTES, 'UTF-8'); ?>" size="25" />
-      
+        <input type="text" title="<?php echo _AT("search"); ?>" name="search_text" id="search_text_at_header" value="<?php if (isset($_GET['search_text'])) echo htmlentities_utf8($_GET['search_text'], ENT_QUOTES, 'UTF-8'); ?>" size="25" />      
 <?php if (is_array($this->categories)) { // print category dropdown list box?>
         <select name="catid">
           <option value="" <?php if (!isset($_GET['catid']) || $_GET['catid'] == '') echo 'selected="selected"'; ?>><?php echo _AT('all_categories'); ?></option>
@@ -215,29 +204,11 @@ foreach ($this->top_level_pages as $page) {
       </form>
       </div>
   </div>
-  
-  
-<!-- 
-<div>
-   <div id="breadcrumbs">
-      <?php if (is_array($this->path)) {?>
-      <?php foreach ($this->path as $page){ ?>
-         <a href="<?php echo $page['url']; ?>"><?php echo $page['title']; ?></a> > 
-      <?php }} echo $this->page_title; ?>
-   </div>
-
-   <?php if (isset($this->guide)) {?>
-      <a href="<?php echo $this->guide; ?>" id="guide" onclick="trans.utility.poptastic('<?php echo $this->guide; ?>'); return false;"><em><?php echo $this->page_title; ?></em></a>
-   <?php } ?>
-</div>
-!-->
-
 
   <div id="ajax-msg">
   </div>
 
   <div id="sequence-links">
-    <?php //if ($_SESSION["prefs"]["PREF_SHOW_NEXT_PREVIOUS_BUTTONS"]) { ?>
     <?php if ($this->sequence_links['resume']): ?>
     <a style="color:white;" href="<?php echo $this->sequence_links['resume']['url']; ?>" accesskey="."><img src="<?php echo $this->base_path.'themes/'.$this->theme; ?>/images/resume.png" border="0" title="<?php echo _AT('resume').': '.$this->sequence_links['resume']['title']; ?> Alt+." alt="<?php echo $this->sequence_links['resume']['title']; ?> Alt+." class="shortcut_icon" /></a>
     <?php else:
@@ -248,12 +219,8 @@ foreach ($this->top_level_pages as $page) {
     <a href="<?php echo $this->sequence_links['next']['url']; ?>" title="<?php echo _AT('next_topic').': '.$this->sequence_links['next']['title']; ?> Alt+." accesskey="."><img src="<?php echo $this->base_path.'themes/'.$this->theme; ?>/images/next.png" border="0" alt="<?php echo _AT('next_topic').': '.$this->sequence_links['next']['title']; ?> Alt+." class="shortcut_icon" /></a>
     <?php endif; ?>
     <?php endif; ?>
-<?php // } ?>
     &nbsp;
   </div>
-  
- 
-
   <!-- guide -->
   <?php if (isset($this->guide)) {  ?>
     <div id="guide_box" title="<?php echo _AT('handbook_for').' '.$this->page_title; ?>">
@@ -272,7 +239,6 @@ foreach ($this->top_level_pages as $page) {
   <?php } ?>
   
   <?php if (isset($this->course_id) && $this->course_id > 0) {?>
-    <!--  <div id="course-tools">-->
       <?php if ($this->isAuthor || $this->isAdmin) { // only for authors or admins ?>
       <li><a href="<?php echo $this->base_path; ?>home/course/course_property.php?_course_id=<?php echo $this->course_id; ?>">
         <img src="<?php echo $this->base_path. "themes/".$this->theme."/images/course_property.png"; ?>" title="<?php echo _AT('course_property'); ?>" alt="<?php echo _AT('course_property'); ?>" border="0"  class="shortcut_icon"/>
@@ -299,7 +265,6 @@ foreach ($this->top_level_pages as $page) {
  </div>
     <?php }?>
 
-<?php //if ($this->course_id > 0) { ?>
   <div id="contentwrapper">
     <?php //if ((isset($this->course_id) && $this->course_id > 0)): ?>
     <div id="leftcolumn">
@@ -307,9 +272,9 @@ foreach ($this->top_level_pages as $page) {
       //<![CDATA[
       var state = trans.utility.getcookie("side-menu");
       if (state && (state == 'none')) {
-          document.writeln('<a name="menu"></a><div style="display:none;" id="side-menu">');
+          document.writeln('<a name="menu"></a><div style="display:none;" id="side-menu" role="navigation">');
       } else {
-          document.writeln('<a name="menu"></a><div id="side-menu">');
+          document.writeln('<a name="menu"></a><div id="side-menu" role="navigation">');
       }
       //]]>
       </script>
@@ -321,13 +286,10 @@ foreach ($this->top_level_pages as $page) {
       //]]>
       </script>
     </div>
-   <?php //endif; ?>
-
-    <div id="contentcolumn"
+    <div id="contentcolumn" role="main"
     <?php if (isset($this->course_id) && $this->course_id <= 0): ?>
       style="margin-left:0.5em;width:99%;"
-    <?php endif; ?>
-    >
+    <?php endif; ?>>
 
     <?php //if (isset($this->course_id) && $this->course_id > 0): ?>
       <div id="menutoggle">
@@ -360,58 +322,33 @@ foreach ($this->top_level_pages as $page) {
       <?php global $msg; $msg->printAll(); ?>
       </div>
 
-      <?php if (count($this->sub_level_pages) > 0): ?>
-
-<!-- <div id="topnavlistcontainer">
-   <ul id="topnavlist">
-      <?php $accesscounter = 0; //initialize ?>
-      <?php foreach ($this->top_level_pages as $page): ?>
-         <?php ++$accesscounter; $accesscounter = ($accesscounter == 10 ? 0 : $accesscounter); ?>
-         <?php $accesskey_text = ($accesscounter < 10 ? 'accesskey="'.$accesscounter.'"' : ''); ?>
-         <?php $accesskey_title = ($accesscounter < 10 ? ' Alt+'.$accesscounter : ''); ?>
-         <?php if ($page['url'] == $this->current_top_level_page): ?>
-            <li><a href="<?php echo $page['url']; ?>" <?php echo $accesskey_text; ?> title="<?php echo $page['title'] . $accesskey_title; ?>" class="active"><?php echo $page['title']; ?></a></li>
-         <?php else: ?>
-            <li><a href="<?php echo $page['url']; ?>" <?php echo $accesskey_text; ?> title="<?php echo $page['title'] . $accesskey_title; ?>"><?php echo $page['title']; ?></a></li>
-         <?php endif; ?>
-         <?php $accesscounter = ($accesscounter == 0 ? 11 : $accesscounter); ?>
-      <?php endforeach; ?>
-   </ul>
-</div> -->
-   
-<?php endif; ?>
-<!-- the main navigation. in our case, tabs -->
-
-<?php 
-//} // end of else
-?>
  <!-- the sub navigation -->
 <?php if (is_array($this->sub_menus) && count($this->sub_menus) > 0): ?>
-<div id="subnavlistcontainer">
-    <div id="sub-navigation">
-     <?php if (isset($this->back_to_page)): ?>
-       <div id="subnavbacktopage">     
-         <a href="<?php echo $this->back_to_page['url']; ?>" id="back-to"><?php echo '<img src="'.TR_BASE_HREF.'images/arrowicon.png"  alt="'._AT('back_to').':'.$this->back_to_page['title'].'" title="'._AT('back_to').':'.$this->back_to_page['title'].'" style="vertical-align:center;" />'; ?></a> 
-       </div>
-     <?php endif; ?>
-   <ul id="subnavlist">
-      <?php $num_pages = count($this->sub_menus); ?>
-      <?php for ($i=0; $i<$num_pages; $i++): ?>
-     <?php list($sub_menu_url, $param) = Utility::separateURLAndParam($this->sub_menus[$i]['url']);
-      if ($sub_menu_url == $this->current_page): ?>
-   <li class="active"><strong><?php echo $this->sub_menus[$i]['title']; ?></strong></li>
-      <?php else: ?>
-   <li><a href="<?php echo $this->sub_menus[$i]['url']; ?>"><?php echo $this->sub_menus[$i]['title']; ?></a></li>
-      <?php endif; ?>
-      <?php if ($i < $num_pages-1): ?>
-      <?php endif; ?>
-      <?php endfor; ?>
-      <?php else: ?>
-      &nbsp;
+        <div id="subnavlistcontainer">
+            <div id="sub-navigation">
+             <?php if (isset($this->back_to_page)): ?>
+               <div id="subnavbacktopage">     
+                 <a href="<?php echo $this->back_to_page['url']; ?>" id="back-to"><?php echo '<img src="'.TR_BASE_HREF.'images/arrowicon.png"  alt="'._AT('back_to').':'.$this->back_to_page['title'].'" title="'._AT('back_to').':'.$this->back_to_page['title'].'" style="vertical-align:center;" />'; ?></a> 
+               </div>
+             <?php endif; ?>
+           <ul id="subnavlist">
+              <?php $num_pages = count($this->sub_menus); ?>
+              <?php for ($i=0; $i<$num_pages; $i++): ?>
+             <?php list($sub_menu_url, $param) = Utility::separateURLAndParam($this->sub_menus[$i]['url']);
+              if ($sub_menu_url == $this->current_page): ?>
+           <li class="active"><strong><?php echo $this->sub_menus[$i]['title']; ?></strong></li>
+              <?php else: ?>
+           <li><a href="<?php echo $this->sub_menus[$i]['url']; ?>"><?php echo $this->sub_menus[$i]['title']; ?></a></li>
+              <?php endif; ?>
+              <?php if ($i < $num_pages-1): ?>
+              <?php endif; ?>
+              <?php endfor; ?>
+              <?php else: ?>
+              &nbsp;
 
-      <?php endif; ?>
-      <?php if (is_array($this->sub_menus) && count($this->sub_menus) > 0): ?>
-      </ul>
-    </div>
-</div>
+              <?php endif; ?>
+              <?php if (is_array($this->sub_menus) && count($this->sub_menus) > 0): ?>
+              </ul>
+            </div>
+        </div>
 <?php endif; ?>

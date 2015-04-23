@@ -86,7 +86,7 @@ $course_desc     = htmlspecialchars($course_row['description'], ENT_QUOTES, 'UTF
 $course_title    = htmlspecialchars($course_row['title'], ENT_QUOTES, 'UTF-8');
 $course_language = $course_row['primary_language'];
 
-$courseLanguage =& $languageManager->getLanguage($course_language);
+$courseLanguage = $languageManager->getLanguage($course_language);
 
 //If course language cannot be found, use UTF-8 English
 //@author harris, Oct 30,2008
@@ -256,13 +256,19 @@ ob_end_clean();
  * */
 
 $mnf	= '';
-$mnf	.= "<resource identifier=\"MANIFEST01_RESOURCE".rand()."\" type=\"webcontent\">\n";
-$mnf	.= "<metadata/>\n";
+$flag = false;
 	// take all .css documents in "commoncartridge" folder
 	$css	= array();
 	for($i=0; $i < count($rows); $i++){
-		if(!in_array($rows[$i]['layout'], $css) AND $rows[$i]['layout'] != null){
-
+		if(!in_array($rows[$i]['layout'], $css) AND $rows[$i]['layout'] != null AND  $templates_theme->exist_layout($rows[$i]['layout'])){
+                        
+                        if(!$flag) {
+                            
+                                $mnf	.= "<resource identifier=\"MANIFEST01_RESOURCE".rand()."\" type=\"webcontent\">\n";
+                                $mnf	.= "<metadata/>\n";
+                                $flag = true;
+                        }
+                    
 			$css[]	= $rows[$i]['layout'];
 
 			// add the .css file
@@ -277,7 +283,9 @@ $mnf	.= "<metadata/>\n";
 				}
 		}
 	}
-$mnf	.= "\n</resource>";
+        
+if($flag)
+        $mnf	.= "\n</resource>";
 
 $resources .= $mnf;
 
